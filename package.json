@@ -1,0 +1,19 @@
+{
+  "name": "chat-backend",
+  "version": "1.0.0",
+  "description": "A TypeScript-based Node.js backend for a real-time chat application. Provides REST endpoints for message history and real-time message broadcasting using WebSockets.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RomSribn/chat-backend.git"
+  },
+  "author": "RomanSribnyi <steeper.fest@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RomSribn/chat-backend/issues"
+  },
+  "homepage": "https://github.com/RomSribn/chat-backend#readme"
+}
