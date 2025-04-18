@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import { logger } from '#utils/logger';
 
-const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/chat-app';
+const MONGO_URI = process.env.APP_MONGO_URI || 'mongodb://localhost:27017/chat-app';
 
 export async function connectMongo() {
   try {

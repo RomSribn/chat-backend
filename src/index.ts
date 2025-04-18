@@ -1,12 +1,15 @@
-import express from 'express';
 import http from 'http';
+import express from 'express';
 import cors from 'cors';
+import dotenv from 'dotenv';
 import { Server } from 'socket.io';
 
 import { connectMongo } from '#database/mongo-connection';
 import { logger } from '#utils/logger';
 import { registerSocketHandlers } from '#socket/socket-server';
 import chatRoutes from '#routes/chat-routes';
+
+dotenv.config();
 
 const app = express();
 const server = http.createServer(app);
