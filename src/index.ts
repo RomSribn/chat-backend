@@ -2,8 +2,11 @@ import express from 'express';
 import http from 'http';
 import cors from 'cors';
 import { Server } from 'socket.io';
-import chatRoutes from '#routes/chat-routes';
+
+import { connectMongo } from '#database/mongo-connection';
+import { logger } from '#utils/logger';
 import { registerSocketHandlers } from '#socket/socket-server';
+import chatRoutes from '#routes/chat-routes';
 
 const app = express();
 const server = http.createServer(app);
@@ -17,7 +20,9 @@ app.use('/api', chatRoutes);
 
 registerSocketHandlers(io);
 
-const PORT = process.env.PORT || 4000;
-server.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+connectMongo().then(() => {
+    const PORT = process.env.PORT || 4000;
+    server.listen(PORT, () => {
+        logger.info(`Server running on http://localhost:${PORT}`);
 });
+  });

@@ -1,17 +1,27 @@
 import { Server } from 'socket.io';
 import { chatService } from '#services/chat-service';
+import { messageSchema } from '#validations/message-validation';
+import { logger } from '#utils/logger';
 
 export const registerSocketHandlers = (io: Server) => {
   io.on('connection', (socket) => {
-    console.log('User connected:', socket.id);
+    logger.info('User connected:', socket.id);
 
-    socket.on('send-message', ({ username, content }) => {
-      const message = chatService.addMessage(username, content);
-      io.emit('new-message', message);
+    socket.on('send-message', async (data) => {
+      try {
+        const { username, content } = messageSchema.parse(data);
+        const message = await chatService.addMessage(username, content);
+
+        io.emit('new-message', message);
+      } catch (error) {
+        logger.error('Socket message validation or saving error:', error);
+
+        socket.emit('error-message', { error: 'Invalid message format or server error.' });
+      }
     });
 
     socket.on('disconnect', () => {
-      console.log('User disconnected:', socket.id);
+      logger.info('User disconnected:', socket.id);
     });
   });
 };

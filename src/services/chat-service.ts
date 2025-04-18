@@ -1,21 +1,24 @@
-import { ChatMessage } from '#models/message';
-import { randomUUID } from 'crypto';
-
-let messages: ChatMessage[] = [];
+import { Message, MessageModel } from '#models/message-model';
 
 export const chatService = {
-  getAllMessages(): ChatMessage[] {
-    return messages;
-  },
-
-  addMessage(username: string, content: string): ChatMessage {
-    const newMessage: ChatMessage = {
-      id: randomUUID(),
+  async addMessage(username: string, content: string): Promise<Message> {
+    const newMessage = new MessageModel({
       username,
       content,
       timestamp: Date.now(),
-    };
-    messages.push(newMessage);
-    return newMessage;
+    });
+
+    await newMessage.save();
+
+    return newMessage.toObject() as Message;
   },
+
+  async getMessages(offset = 0, limit = 20) {
+    const [messages, total] = await Promise.all([
+      MessageModel.find().sort({ timestamp: 1 }).skip(offset).limit(limit).lean<Message[]>(),
+      MessageModel.countDocuments()
+    ]);
+
+    return { messages, total };
+  }
 };
