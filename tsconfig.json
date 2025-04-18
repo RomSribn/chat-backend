@@ -17,7 +17,8 @@
         "#routes/*": ["routes/*"],
         "#services/*": ["services/*"],
         "#socket/*": ["socket/*"],
-        "#utils/*": ["utils/*"]
+        "#utils/*": ["utils/*"],
+        "#validations/*": ["validations/*"]
     }
     },
     "include": ["src"],
