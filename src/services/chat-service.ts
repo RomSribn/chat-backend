@@ -13,12 +13,12 @@ export const chatService = {
     return newMessage.toObject() as Message;
   },
 
-  async getMessages(offset = 0, limit = 20) {
+  async getMessages(offset = 0, limit = 6) {
     const [messages, total] = await Promise.all([
-      MessageModel.find().sort({ timestamp: 1 }).skip(offset).limit(limit).lean<Message[]>(),
+      MessageModel.find().sort({ timestamp: -1 }).skip(offset).limit(limit).lean<Message[]>(),
       MessageModel.countDocuments()
     ]);
 
-    return { messages, total };
+    return { messages: messages.sort((a, b) => a.timestamp - b.timestamp), total };
   }
 };
